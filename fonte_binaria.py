@@ -3,6 +3,10 @@
 import numpy as numpy
 import matplotlib.pyplot as plot
 
+################################################################################
+# Modelagem de uma fonte discreta sem memória
+################################################################################
+
 def gera_analise_simbolos(array):
     quantidadeZeros = 0
     quantidadeUms = 0
