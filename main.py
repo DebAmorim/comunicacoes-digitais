@@ -1,3 +1,6 @@
-from fonte_binaria import gera_simbolos
+from trabalho_3 import executa, gera_intervalo_probabilidade, calcula_limiar_aproximado
 
-gera_simbolos(10000, 0.5)
+
+executa(10000)
+executa(20000)
+executa(60000)

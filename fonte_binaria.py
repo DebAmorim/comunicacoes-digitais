@@ -37,6 +37,8 @@ def gera_simbolos(quantidade_simbolos = 0, probabilidade_zero = 0, duracao_simbo
     plot.close('all')
 
     aleatorio = numpy.random.rand(quantidade_simbolos)
+    aleatorio2 = numpy.random.choice()
+    print(aleatorio)
     aleatorio[numpy.where(aleatorio >= probabilidade_zero)] = 1
     aleatorio[numpy.where(aleatorio < probabilidade_zero)] = 0
     gera_analise_simbolos(aleatorio)
