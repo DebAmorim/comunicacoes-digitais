@@ -2,9 +2,9 @@ import numpy as np
 import math
 import scipy.special as sp
 import matplotlib.pyplot as plt
-from probabilidade_x import calcula_probabilidade
-from distribuicao_gaussiana import gera_distribuicao_gaussiana
-from histograma import calcula_amplitude, calcula_quantidade_classes
+from funcoes.probabilidade_x import calcula_probabilidade
+from funcoes.distribuicao_gaussiana import gera_distribuicao_gaussiana
+from funcoes.histograma import calcula_amplitude, calcula_quantidade_classes
 from fonte_binaria_gaussiana import gera_simbolos_binarios, gera_simbolos_binarios_ideal
 
 
@@ -99,7 +99,7 @@ def calcula_limiar_aproximado2(p, array):
     return x_point
 
 
-def executa(quantidade_simbolos, probabilidade_zero=0.2, max=3, min=-3):
+def executa(quantidade_simbolos, probabilidade_zero=0.5, max=3, min=-3):
 
     valores_aleatorios = gera_distribuicao_gaussiana(quantidade_simbolos)
     x = gera_intervalo_probabilidade(max, min, quantidade_simbolos)
@@ -117,12 +117,26 @@ def executa(quantidade_simbolos, probabilidade_zero=0.2, max=3, min=-3):
     gera_simbolos_binarios(valores_aleatorios, limiar_aproximado, 'aproximado')
     print('\n')
 
-    # plt.bar(valores_unicos, numero_ocorrencias, 0.2, color='pink')
+
+    plota_curva(x, probabilidade_x, quantidade_simbolos, probabilidade_zero, limiar, limiar_aproximado, limiar_aproximado2)
+    plota_histograma(valores_unicos, numero_ocorrencias, quantidade_simbolos, probabilidade_zero)
+
+
+def plota_histograma(valores_unicos, numero_ocorrencias, quantidade_simbolos, probabilidade_zero):
+    plt.bar(valores_unicos, numero_ocorrencias, 0.2, color='pink')
+    plt.title('Gerando ' + str(quantidade_simbolos) + " símbolos com P(x)=" + str(probabilidade_zero))
+    plt.xlabel("Valores")
+    plt.ylabel("Contagem")
+    plt.show()
+
+
+def plota_curva(x, probabilidade_x, quantidade_simbolos, probabilidade_zero, limiar, limiar_aproximado, limiar_aproximado2):
     plt.plot(x, probabilidade_x)
-    plt.axvline(limiar, color='red', linewidth=4 )
-    plt.axvline(limiar_aproximado, color='cyan')
-    plt.axvline(limiar_aproximado2, color='orange')
-    # plt.axvline(limiar_aproximado2, color='cyan')
+    plt.title('Gerando ' + str(quantidade_simbolos) + " símbolos com P(x)=" + str(probabilidade_zero))
+    plt.axvline(limiar, color='red', label='Ideal', linewidth=4)
+    plt.axvline(limiar_aproximado, label='ERFC', color='cyan')
+    plt.axvline(limiar_aproximado2, label='Q(x)', color='orange')
+    plt.legend(loc='upper right')
     plt.xlabel("Valores")
     plt.ylabel("Contagem")
     plt.show()

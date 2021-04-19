@@ -1,9 +1,8 @@
-import numpy as np
-
-
 ################################################################################
 # Cálculo dos valores para construção de um histograma
 ################################################################################
+
+import numpy as np
 
 
 def calcula_amplitude(array):
