@@ -3,15 +3,10 @@ import math
 
 
 ################################################################################
-# Cálculo da probabilidade de uma distribuição gaussiana com média sezo e
-# variância unitária
+# Cálculo da função densidade de probabilidade de uma distribuição gaussiana
 ################################################################################
 
 
-media = 0
-sigma = 1
-
-
-def calcula_probabilidade(x):
+def calcula_fdp(x, media=0, sigma=1):
     probabilidade = (1.0 / (sigma * np.sqrt(2.0 * math.pi))) * np.exp(-0.5 * ((x - media) / sigma) ** 2)
     return probabilidade

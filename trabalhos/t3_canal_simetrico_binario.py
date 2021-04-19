@@ -1,13 +1,16 @@
 ################################################################################
-# Implementando canal simétrico binário e alterando valor de sigma do ruído
-# para obter menor taxa de erro.
+# CANAL SIMÉTRICO BINÁRIO
+# Uma mensagem binária, aleatória, é enviada através do canal. O canal adiciona
+# ruído à mensagem. Uma das técnicas utilizadas para recuperar a mensagem
+# é manipular a SNR para que tenhamos potência do sinal > potência do ruído.
+# Esta implementação corresponde ao exemplo 8.16, Lathi, 4a Edição
 ################################################################################
+
 from funcoes.forma_onda import gera_onda_triagular
-from funcoes.distribuicao_gaussiana import gera_distribuicao_gaussiana
+from funcoes.distribuicao_gaussiana import gera_distribuicao_gaussiana, gera_distribuicao_normal
 from funcoes.gera_fonte_binaria import gera_sinal_binario
-import matplotlib.pyplot as plt
-import numpy as np
-import math
+from funcoes.fdp import calcula_fdp
+from funcoes.plotagem import plota_curva_com_eixo_y_em_zero, gera_intervalo_plotagem, plota_amplitudes, plota_pontos
 
 
 n_bits = 100
@@ -25,27 +28,7 @@ sinal_binario = gera_sinal_binario(sinal_aleatorio)
 
 mensagem = gera_onda_triagular(sinal_aleatorio, amplitude_sinal)
 
-def plota_curva_com_eixo_y_em_zero(mensagem, titulo):
-    plt.plot(mensagem)
-    plt.title(titulo)
-    plt.axhline(0,  color='red')
-    plt.xlabel("Valores")
-    plt.ylabel("Contagem")
-    plt.show()
-
-
 #3 Criar sinal de ruído
-
-
-def calcula_fdp_ruido(x):
-    fdp = (1.0 / (sigma_ruido * np.sqrt(2.0 * math.pi))) * np.exp(-0.5 * ((x - 0) / sigma_ruido) ** 2)
-    return fdp
-
-
-def gera_ruido_gaussiano(quantidade_simbolos):
-    ruido = np.random.normal(0, sigma_ruido, quantidade_simbolos)
-    return ruido
-
 
 def gera_analise_ruido(ruido):
     ruido_ordenado = []
@@ -68,40 +51,12 @@ def gera_analise_mensagem(mensagem):
     return amplitude
 
 
-def gera_intervalo_plotagem(max, min, quantidade_simbolos):
-    x = np.linspace(min, max, quantidade_simbolos)
-    return x
-
-
-
-def plota_amplitudes(fdp_ruido, intervalo_plotagem, amplitude_mensagem, title):
-    plt.plot(intervalo_plotagem, fdp_ruido)
-    plt.title(title)
-    plt.axvline(amplitude_mensagem[0], color='purple', label='-Ap')
-    plt.axvline(amplitude_mensagem[1], label='+Ap', color='purple')
-    # plt.axhline(0, color='orange')
-    plt.legend(loc='upper right')
-    plt.xlabel("n")
-    plt.ylabel("P(n)")
-    plt.show()
-
-
-def plota_pontos(fdp_ruido, intervalo_plotagem, title):
-    plt.plot(intervalo_plotagem, fdp_ruido, 'o')
-    plt.title(title)
-    # plt.axhline(0, color='orange')
-    plt.xlabel("Bits")
-    plt.ylabel("Diferença")
-    plt.show()
-
-
-
 intervalo_plotagem = gera_intervalo_plotagem(sigma_ruido*5, -sigma_ruido*5, 1000)
-fdp_ruido = calcula_fdp_ruido(intervalo_plotagem)
+fdp_ruido = calcula_fdp(intervalo_plotagem, 0, sigma_ruido)
 
 
 quantidade_amostras = len(mensagem)
-ruido = gera_ruido_gaussiano(quantidade_amostras)
+ruido = gera_distribuicao_gaussiana(quantidade_amostras, 0, sigma_ruido)
 
 amplitude_mensagem = gera_analise_mensagem(mensagem)
 gera_analise_ruido(ruido)

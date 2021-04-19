@@ -2,14 +2,51 @@ import numpy as np
 import math
 import scipy.special as sp
 import matplotlib.pyplot as plt
-from funcoes.probabilidade_x import calcula_probabilidade
+from funcoes.fdp import calcula_fdp
 from funcoes.distribuicao_gaussiana import gera_distribuicao_gaussiana
 from funcoes.histograma import calcula_amplitude, calcula_quantidade_classes
-from fonte_binaria_gaussiana import gera_simbolos_binarios, gera_simbolos_binarios_ideal
 
 
 media = 0
 sigma = 1
+
+def gera_simbolos_binarios(array, limiar, valor):
+    i = 0
+    sinal = []
+    while i < len(array):
+        if array[i] < limiar:
+            sinal.append(0)
+        else:
+            sinal.append(1)
+        i += 1
+    gera_analise(sinal, valor)
+
+
+def gera_simbolos_binarios_ideal(array, p, valor):
+    i = 0
+    sinal = []
+    idx = round(len(array)*p)
+    while i < len(array):
+        if i < idx:
+            sinal.append(0)
+        else:
+            sinal.append(1)
+        i += 1
+    gera_analise(sinal, valor)
+
+
+def gera_analise(array, valor):
+    quantidadeZeros = 0
+    quantidadeUms = 0
+    for amostra in array:
+        if amostra == 0:
+            quantidadeZeros += 1
+        else:
+            quantidadeUms += 1
+    print("De um total de", len(array), "símbolos", round(quantidadeZeros / len(array) * 100, 2), "% foram 0 (Zero) e",
+          round(quantidadeUms / len(array) * 100, 2), "% foram 1 (Um). O valor é " + str(valor) + ".")
+
+
 
 
 def gera_intervalo_probabilidade(max, min, quantidade_simbolos):
@@ -103,7 +140,7 @@ def executa(quantidade_simbolos, probabilidade_zero=0.5, max=3, min=-3):
 
     valores_aleatorios = gera_distribuicao_gaussiana(quantidade_simbolos)
     x = gera_intervalo_probabilidade(max, min, quantidade_simbolos)
-    probabilidade_x = calcula_probabilidade(x)
+    probabilidade_x = calcula_fdp(x, 0, 1)
     intervalos = gera_classes_histograma(valores_aleatorios)
     valores_parametrizados = ajusta_valores_aleatorios_para_classes(valores_aleatorios, intervalos)
     valores_unicos = gera_array_valores_unicos_por_classe(valores_parametrizados)
