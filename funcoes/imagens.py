@@ -8,7 +8,7 @@ from PIL import Image
 def converte_imagem_pb_em_vetor_binario():
     imagem_pb_binaria = []
 
-    imagem = Image.open(r"/images/smile.jpg")
+    imagem = Image.open(r"/home/deb/Documentos/Deb/DESENVOLVIMENTO/PROJETOS/comunicacoes-digitais/images/smile.jpg")
     imagem = imagem.convert("1")
     for y in range(imagem.size[1]):
         for x in range(imagem.size[0]):
@@ -21,8 +21,8 @@ def converte_imagem_pb_em_vetor_binario():
     return imagem_pb_binaria
 
 
-def converte_vetor_binario_em_imagem_pb(imagem_pb):
-    imagem_antiga = Image.open(r"/images/smile.jpg")
+def converte_vetor_binario_em_imagem_pb(imagem_pb,n):
+    imagem_antiga = Image.open(r"/home/deb/Documentos/Deb/DESENVOLVIMENTO/PROJETOS/comunicacoes-digitais/images/smile.jpg")
 
     imagem_nova = Image.new('1', imagem_antiga.size)
 
@@ -37,4 +37,4 @@ def converte_vetor_binario_em_imagem_pb(imagem_pb):
 
             pix_num += 1
 
-    imagem_nova.save("nova_imagem.jpeg")
+    imagem_nova.save("nova_imagem"+str(n)+".jpeg")

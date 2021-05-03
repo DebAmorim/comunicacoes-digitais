@@ -27,6 +27,15 @@ def plota_amplitudes(fdp_ruido, intervalo_plotagem, amplitude_mensagem, title):
     plt.show()
 
 
+def plota_cartesiano(amplitude, intervalo_plotagem, title):
+    plt.plot(intervalo_plotagem, amplitude)
+    plt.title(title)
+    plt.axhline(0, color='red')
+    plt.xlabel("n Bits")
+    plt.ylabel("Amplitude")
+    plt.show()
+
+
 def plota_pontos(fdp_ruido, intervalo_plotagem, title):
     plt.plot(intervalo_plotagem, fdp_ruido, 'o')
     plt.title(title)
